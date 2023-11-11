@@ -504,17 +504,19 @@
   
   
   {
-  interface CarInfo {
-      manufacturer: string;
-      model: string;
-      [key: string]: any;
+    function carDetails(manufacturer: string, model: string, ...details: [string, string][]): Record<string, string> {
+      const carInfo: Record<string, string> = { manufacturer, model };
+  
+      details.forEach(([key, value]) => {
+          carInfo[key] = value;
+      });
+  
+      return carInfo;
   }
-  function carDetails(manufacturer: string, model: string, ...otherDetails: [string, any][]): CarInfo {
-      const car: CarInfo = { manufacturer, model, ...Object.fromEntries(otherDetails) };
-      return car;
-  }
-  const myCar = carDetails('Toyota', 'Corolla', ['color', 'red'], ['year', 2022]);
+  
+  const myCar = carDetails('Toyota', 'Corolla', ['color', 'red'], ['year', '2022']);
   console.log(myCar);
+    
   }
   
   
