@@ -1,6 +1,7 @@
 import inquirer from 'inquirer';
 
-async function main() {
+// designed for ease of use with one hand
+async function numpadCalculator() {
   let result = 0;
   let continueCalc = true;
 
@@ -67,4 +68,4 @@ async function main() {
   console.log("Calculator closed.");
 }
 
-main().catch((error) => console.error(error));
+numpadCalculator().catch((error) => console.error(error));
