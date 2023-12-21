@@ -1,0 +1,70 @@
+import inquirer from 'inquirer';
+
+async function main() {
+  let result = 0;
+  let continueCalc = true;
+
+  while (continueCalc) {
+    // Get first number
+    const firstNumberInput = await inquirer.prompt({
+      type: "input",
+      name: "num1",
+      message: "Enter first number:",
+      validate: (value) => !isNaN(parseFloat(value)) || 'Enter a valid number:',
+    });
+    const firstNumber = parseFloat(firstNumberInput.num1);
+
+    // Choose operation
+    const operation = await inquirer.prompt({
+      type: "rawlist",
+      name: "operation",
+      message: "Choose operation:",
+      choices: ["add", "substract", "multiply", "divide"],
+    });
+
+    // Get second number
+    const secondNumberInput = await inquirer.prompt({
+      type: "input",
+      name: "num2",
+      message: "Enter second number:",
+      validate: (value) => !isNaN(parseFloat(value)) || 'Enter a valid number:',
+    });
+    const secondNumber = parseFloat(secondNumberInput.num2);
+
+    // Perform operation
+    switch (operation.operation) {
+      case "add":
+        result = firstNumber + secondNumber;
+        break;
+      case "substract":
+        result = firstNumber - secondNumber;
+        break;
+      case "multiply":
+        result = firstNumber * secondNumber;
+        break;
+      case "divide":
+        if (secondNumber === 0) {
+          console.error("Division by zero is not allowed!");
+        } else {
+          result = firstNumber / secondNumber;
+        }
+        break;
+    }
+
+    // Show result and ask for continuation
+    console.log(`Result: ${result}`);
+    continueCalc = await inquirer.prompt({
+      type: "list",
+      name: "continue",
+      message: "Continue calculating?",
+      choices: [
+        { name: "1. Yes", value: true },
+        { name: "2. No", value: false }
+      ],
+    }).then((answer) => answer.continue);
+  }
+
+  console.log("Calculator closed.");
+}
+
+main().catch((error) => console.error(error));
